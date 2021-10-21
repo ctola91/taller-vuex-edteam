@@ -10,7 +10,12 @@ export default createStore({
       message: "",
     };
   },
-  actions: {},
+  actions: {
+    setMessage: ({ commit }, message) => {
+      // agregar una funcion asyncrona
+      commit('setMessage', message);
+    }
+  },
   mutations: {
     setMessage: (state, message) => {
       state.message = message;

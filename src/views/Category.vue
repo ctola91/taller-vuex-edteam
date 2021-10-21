@@ -18,7 +18,9 @@ export default {
       message: computed(() => store.state.message),
       error: computed(() => store.state.error),
       setMessage: () => {
-        store.commit("setMessage", text.value);
+        // mutations
+        // store.commit("setMessage", text.value);
+        store.dispatch("setMessage", text.value);
       },
     };
   },

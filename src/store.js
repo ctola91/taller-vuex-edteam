@@ -1,25 +1,16 @@
 import { createStore, createLogger } from "vuex";
 
+import categories from "./store/categories";
+
 const debug = process.env.NODE_ENV !== "production";
 
 export default createStore({
-  state() {
-    return {
-      categories: [],
-      error: false,
-      message: "",
-    };
-  },
-  actions: {
-    setMessage: ({ commit }, message) => {
-      // agregar una funcion asyncrona
-      commit('setMessage', message);
-    }
-  },
-  mutations: {
-    setMessage: (state, message) => {
-      state.message = message;
-    },
+  state: {},
+  actions: {},
+  getters: {},
+  mutations: {},
+  modules: {
+    categories,
   },
   plugins: debug ? [createLogger()] : [],
 });

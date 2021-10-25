@@ -1,11 +1,11 @@
-import { initializeApp } from "firebase";
+import { initializeApp } from "firebase/app";
 import {
   API_KEY,
-  APP_ID,
   AUTH_DOMAIN,
-  MESSAGING_SENDER_ID,
   PROJECT_ID,
   STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
 } from "../shared/utils/constants";
 
 const app = initializeApp({

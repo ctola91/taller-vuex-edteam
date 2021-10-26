@@ -1,12 +1,12 @@
 <template>
-  <form v-on:submit="submit">
+  <form v-on:submit="handleSubmit">
     <div class="field">
       <label class="label">Titulo</label>
       <input
         type="text"
         class="input"
         placeholder="Titulo"
-        v-model="categoryForm.title"
+        v-model="category.title"
       />
     </div>
     <div class="field">
@@ -15,7 +15,7 @@
         <textarea
           class="textarea"
           placeholder="Agrega tu descripcion"
-          v-model="categoryForm.description"
+          v-model="category.description"
         ></textarea>
       </div>
     </div>
@@ -27,7 +27,7 @@
             type="radio"
             name="gasto"
             value="true"
-            v-model="categoryForm.gasto"
+            v-model="category.gasto"
           />
           Gasto
         </label>
@@ -36,7 +36,7 @@
             type="radio"
             name="gasto"
             value="false"
-            v-model="categoryForm.gasto"
+            v-model="category.gasto"
           />
           Ingreso
         </label>
@@ -51,56 +51,67 @@
       </div>
     </div>
   </form>
-  <p v-show="loading">Cargando...</p>
+  <p v-show="isLoading">Cargando...</p>
 </template>
 <script>
-import { computed, reactive, watch } from "vue";
-import { useStore } from "vuex";
+import { toRefs } from "vue";
+// import { computed, reactive, watch } from "vue";
+// import { useStore } from "vuex";
 export default {
   // title, description, tipo (gasto, ingreso)
-  setup() {
-    const store = useStore();
-    const categoryForm = reactive({
-      title: "",
-      description: "",
-      gasto: false,
-    });
+  props: {
+    categoryForm: {
+      title: String,
+      description: String,
+      gasto: Boolean,
+    },
+    handleSubmit: Function,
+    loading: Boolean,
+  },
+  setup(props) {
+    const { categoryForm, handleSubmit, loading } = toRefs(props);
+    // const store = useStore();
+    // const categoryForm = reactive({
+    //   title: "",
+    //   description: "",
+    //   gasto: false,
+    // });
 
-    const loading = computed(() => {
-      return store.getters["categories/loading"];
-    });
+    // const loading = computed(() => {
+    //   return store.getters["categories/loading"];
+    // });
 
-    const category = computed(() => {
-      return store.getters["categories/category"];
-    });
+    // const category = computed(() => {
+    //   return store.getters["categories/category"];
+    // });
 
-    const createCategory = (category) => {
-      store.dispatch("categories/addCategory", category);
-    };
+    // const createCategory = (category) => {
+    //   store.dispatch("categories/addCategory", category);
+    // };
 
-    const submit = (event) => {
-      event.preventDefault();
-      if (categoryForm.title !== "" && categoryForm.description !== "") {
-        createCategory({
-          title: categoryForm.title,
-          description: categoryForm.description,
-          gasto: categoryForm.gasto ? true : false,
-        });
-      } else {
-        alert("Llene todos los campos del formulario");
-      }
-    };
+    // const submit = (event) => {
+    //   event.preventDefault();
+    //   if (categoryForm.title !== "" && categoryForm.description !== "") {
+    //     createCategory({
+    //       title: categoryForm.title,
+    //       description: categoryForm.description,
+    //       gasto: categoryForm.gasto ? true : false,
+    //     });
+    //   } else {
+    //     alert("Llene todos los campos del formulario");
+    //   }
+    // };
 
-    watch(category, (newValue, oldValue) => {
-      if (oldValue !== undefined && oldValue !== newValue) {
-        console.log("created: ", newValue);
-      }
-    });
+    // watch(category, (newValue, oldValue) => {
+    //   if (oldValue !== undefined && oldValue !== newValue) {
+    //     console.log("created: ", newValue);
+    //   }
+    // });
 
     return {
-      categoryForm,
-      loading,
-      submit,
+      category: categoryForm,
+      isLoading: loading,
+      submit: handleSubmit,
     };
   },
 };

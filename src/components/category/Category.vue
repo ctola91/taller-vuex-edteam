@@ -20,10 +20,10 @@
   </div>
 </template>
 <script>
-import { ref, reactive, computed, watch, onMounted } from "vue";
-import { useStore } from "vuex";
-import CategoryForm from "../components/category/CategoryForm.vue";
-import CategoryList from "../components/category/CategoryList.vue";
+import { ref, watch, onMounted } from "vue";
+import useCategory from "../../composables/useCategory";
+import CategoryForm from "./CategoryForm.vue";
+import CategoryList from "./CategoryList.vue";
 
 export default {
   components: {
@@ -31,42 +31,25 @@ export default {
     CategoryList,
   },
   setup() {
-    // valores reactivos
-    const text = ref("");
-    const store = useStore();
-    const categoryForm = reactive({
-      title: "",
-      description: "",
-      gasto: false,
-    });
+    const {
+      text,
+      categoryForm,
+      loading,
+      category,
+      categories,
+      createCategory,
+      fetchCategories,
+      message,
+      error,
+      setMessage,
+      textReverse,
+    } = useCategory();
     const isCreateActive = ref(false);
 
     // metodos del ciclo de vida de un componente
     onMounted(() => {
       fetchCategories();
     });
-
-    // computed properties --- getters
-    const loading = computed(() => {
-      return store.getters["categories/loading"];
-    });
-
-    const category = computed(() => {
-      return store.getters["categories/category"];
-    });
-
-    const categories = computed(() => {
-      return store.getters["categories/categories"];
-    });
-
-    // dispatch == disparar el Action
-    const createCategory = (category) => {
-      store.dispatch("categories/addCategory", category);
-    };
-
-    const fetchCategories = () => {
-      store.dispatch("categories/fetchCategories");
-    };
 
     // methods == metodos del componente
     const submit = (event) => {
@@ -89,7 +72,7 @@ export default {
     // watch == escuchar cambios en valores especificos
     watch(category, (newValue, oldValue) => {
       if (oldValue !== undefined && oldValue !== newValue) {
-        console.log("created: ", newValue);
+        toggleCreateSection();
       }
     });
 
@@ -101,14 +84,10 @@ export default {
       categoryForm,
       categories,
       text,
-      message: computed(() => store.getters["categories/message"]),
-      error: computed(() => store.getters["categories/error"]),
-      setMessage: () => {
-        // mutations
-        // store.commit("setMessage", text.value);
-        store.dispatch("categories/setMessage", text.value);
-      },
-      textReverse: computed(() => store.getters["categories/textReverse"]),
+      message,
+      error,
+      setMessage,
+      textReverse,
     };
   },
 };

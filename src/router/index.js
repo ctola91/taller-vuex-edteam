@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
-import Category from "../views/Category.vue";
+import Transaction from "../components/transactions/Transaction.vue";
+import Category from "../components/category/Category.vue";
 import TransactionForm from "../components/transactions/TransactionForm.vue";
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "Transaction",
+    component: Transaction,
   },
   {
     path: "/categorias",

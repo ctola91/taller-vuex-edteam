@@ -67,6 +67,7 @@
 import { computed, onMounted, reactive, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
+import useCategory from "../../composables/useCategory";
 
 export default {
   setup() {
@@ -74,6 +75,7 @@ export default {
     const store = useStore();
     const route = useRoute(); // this.$route
     const router = useRouter(); // this.$router
+    const { categories, fetchCategories } = useCategory();
 
     const transactionForm = reactive({
       amount: null,
@@ -84,15 +86,12 @@ export default {
     });
 
     // computed properties
-    const categories = computed(() => {
-      return store.getters["categories/categories"];
-    });
     const transaction = computed(() => {
       return store.getters["transactions/transaction"];
     });
     // metodos del ciclo de vida
     onMounted(() => {
-      store.dispatch("categories/fetchCategories");
+      fetchCategories();
     });
     // methods
     const handleSubmit = () => {

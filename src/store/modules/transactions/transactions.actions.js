@@ -1,7 +1,4 @@
-import {
-  addTransaction,
-  getTransactions,
-} from "../../../services/TransactionService";
+import TransactionService from "../../../services/TransactionService";
 import {
   CREATE_TRANSACTION_ERROR,
   CREATE_TRANSACTION_REQUEST,
@@ -17,7 +14,7 @@ const createTransaction = async (
 ) => {
   try {
     commit(CREATE_TRANSACTION_REQUEST);
-    let transaction = await addTransaction({
+    let transaction = await TransactionService.addTransaction({
       description,
       amount,
       gasto,
@@ -34,7 +31,7 @@ const createTransaction = async (
 const fetchTransactions = async ({ commit }) => {
   try {
     commit(GET_TRANSACTIONS_REQUEST);
-    let transactions = await getTransactions();
+    let transactions = await TransactionService.getTransactions();
     commit(GET_TRANSACTIONS_SUCCESS, transactions);
   } catch (e) {
     commit(GET_TRANSACTIONS_ERROR, e.message);

@@ -72,7 +72,7 @@ import useCategory from "../../composables/useCategory";
 export default {
   setup() {
     // variables
-    const store = useStore();
+    const store = useStore(); // this.$store
     const route = useRoute(); // this.$route
     const router = useRouter(); // this.$router
     const { categories, fetchCategories } = useCategory();

@@ -64,14 +64,17 @@
   </div>
 </template>
 <script>
-import { computed, onMounted, reactive } from "vue";
+import { computed, onMounted, reactive, watch } from "vue";
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   setup() {
+    // variables
     const store = useStore();
-    const route = useRoute();
+    const route = useRoute(); // this.$route
+    const router = useRouter(); // this.$router
+
     const transactionForm = reactive({
       amount: null,
       description: "",
@@ -80,16 +83,24 @@ export default {
       category: "",
     });
 
+    // computed properties
     const categories = computed(() => {
       return store.getters["categories/categories"];
     });
-
+    const transaction = computed(() => {
+      return store.getters["transactions/transaction"];
+    });
+    // metodos del ciclo de vida
     onMounted(() => {
       store.dispatch("categories/fetchCategories");
     });
-
+    // methods
     const handleSubmit = () => {
-      createTransaction();
+      if (transactionForm.description !== "" && transactionForm.amount !== 0) {
+        createTransaction();
+      } else {
+        alert("Llene todos los campos");
+      }
     };
 
     const createTransaction = () => {
@@ -102,7 +113,15 @@ export default {
       });
     };
 
+    // watch
+    watch(transaction, (newValue, oldValue) => {
+      if (oldValue !== undefined && oldValue !== newValue) {
+        router.push("/");
+      }
+    });
+
     return {
+      transaction,
       isGasto: route.query.isGasto == "true" ? true : false,
       categories,
       transactionForm,

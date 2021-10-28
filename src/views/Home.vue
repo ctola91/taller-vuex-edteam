@@ -1,15 +1,15 @@
 <template>
   <div class="home">
-    <TransactionForm />
+    <TransactionTable />
   </div>
 </template>
 
 <script>
-import TransactionForm from "../components/transactions/TransactionForm.vue";
+import TransactionTable from "../components/transactions/TransactionTable.vue";
 export default {
   name: "Home",
   components: {
-    TransactionForm,
+    TransactionTable,
   },
 };
 </script>

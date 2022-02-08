@@ -26,9 +26,7 @@ const addTransaction = async ({
       date,
     });
     return docRef.id;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 const getTransactions = async () => {
@@ -39,9 +37,7 @@ const getTransactions = async () => {
       transactions.push({ id: doc.id, ...doc.data() });
     });
     return transactions;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 export default {

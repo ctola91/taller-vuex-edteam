@@ -12,9 +12,7 @@ const addCategory = async ({ title, description, gasto }) => {
       gasto,
     });
     return docRef.id;
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 const getCategories = async () => {
@@ -25,9 +23,7 @@ const getCategories = async () => {
       categories.push({ id: doc.id, ...doc.data() });
     });
     return categories;
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 const getCategory = () => {};
 
